@@ -1,4 +1,4 @@
-nclude <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -9,25 +9,35 @@ nclude <stdio.h>
  */
 int main(void)
 {
-char a[100];
-	int r, n, i;
+	int i, j, k, s;
+	char c[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char p[58];
 
-	n = 0;
-	i = 0;
 	srand(time(NULL));
-	while (n < 2645)
+	while (s != 2772)
 	{
-		r = rand() % 122;
-		if (r > 32)
+		i = k = s = 0;
+		while ((2772 - 122) > s)
 		{
-			a[i++] = r;
-			n += r;
+			j = rand() % 62;
+			p[i] = c[j];
+			s += c[j];
+			i++;
+		}
+		while (c[k])
+		{
+			if (c[k] == (2772 - s))
+			{
+				p[i] = c[k];
+				s += c[k];
+				i++;
+				break;
+			}
+			k++;
 		}
 	}
-	a[i++] = (2772 - n);
-	a[i] = '\0';
-	printf("%s", a);
-
+	p[i] = '\0';
+	printf("%s", p);
 	return (0);
 }
 
