@@ -1,16 +1,23 @@
-#ifndef FILE_HOLBERTON
-#define FILE_HOLBERTON
+#ifndef MAIN_H
+#define MAIN_H
+#include <stdio.h>
 
+/**
+* void prototypes()
+*char prototypes()
+* int prototypes()
+*/
+void reset_to_98(int *n);
+void _puts(char *str);
+void print_rev(char *s);
+void rev_string(char *s);
+void swap_int(int *a, int *b);
+void swap_char(char *a, char *b);
+void puts2(char *str);
+void puts_half(char *str);
+void print_array(int *a, int n);
+char *_strcpy(char *dest, char *src);
 int _putchar(char c);
-char *_strcat(char *dest, char *src);
-char *_strncat(char *dest, char *src, int n);
-char *_strncpy(char *dest, char *src, int n);
-int _strcmp(char *s1, char *s2);
-void reverse_array(int *a, int n);
-char *string_toupper(char *);
-char *cap_string(char *);
-char *leet(char *);
-char *rot13(char *);
-void print_number(int n);
-
-#endif
+int _strlen(char *s);
+int _atoi(char *s);
+#endif /*MAIN_H*/
