@@ -1,66 +1,60 @@
+#include "main.h"
+
 /**
- * infinite_add - Add up two numbers stored in given char arrays
- * @n1: The first number
- * @n2: The second number
- * @r: Pointer to the buffer to store result
- * @size_r: The size of the buffer
- *
- * Return: 0 if buffer too small to store result, else return pointer to buffer
- */
+* infinite_add - C function that adds two numbers stored
+*in strings to a buffer.
+*Assumes that strings are never empty and
+*that numbers will always be positive, or 0.
+*Assumes there are only digits stored in the number strings.
+*If result can be stored in the buffer,
+*returns a pointer to the result.
+*If result cannot be stored in the buffer, returns `0`.
+*@n1:first number to be added
+*@n2:second number to be added
+*@r: store result
+*@size_r: size of buffer
+*Return:returns pointer to result
+*/
+
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int l1, l2, tmpl, rl, i, sum, num1, num2, carry;
-	char tmp[10000];
+}
 
-	rl = i = l1 = l2 = sum = num1 = num2 = carry = 0;
-	while (n1[l1] != '\0')
-		l1++;
-	while (n2[l2] != '\0')
-		l2++;
-	if (l1 + 2 > size_r || l2 + 2 > size_r)
-		return (0);
-	l1--;
-	l2--;
-	while (i <= l1 || i <= l2)
+/**
+* add_strings - Adds the numbers stored in two strings.
+* @n1: The string containing the first number to be added.
+* @n2: The string containing the second number to be added.
+* @r: The buffer to store the result.
+* @r_index: The current index of the buffer.
+*
+* Return: If r can store the sum - a pointer to the result.
+*         If r cannot store the sum - 0.
+*/
+
+char *add_strings(char *n1, char *n2, char *r, int r_index)
+{
+	int num, tens = 0;
+
+	for (; *n1 && *n2; n1--, n2--, r_index--)
 	{
-		num1 = num2 = 0;
-		if (i <= l1)
-			num1 = n1[l1 - i] - '0';
-		if (i <= l2 && (l2 - i) >= 0)
-			num2 = n2[l2 - i] - '0';
-		sum = num1 + num2 + carry;
-		if (sum >= 10)
-		{
-			carry = 1;
-			sum -= 10;
-		}
-		else
-			carry = 0;
-		r[i] = sum + '0';
-		i++;
-		rl++;
+		num = (*n1 - '0') + (*n2 - '0');
+		num += tens;
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10;
 	}
-	if (carry > 0)
+
+	for (; *n1; n1--; r_index++)
 	{
-		r[i] = carry + '0';
-		r[i + 1] = '\0';
+		num = *(n1 - '0') + tens; 
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10;
 	}
-	i = tmpl = 0;
-	while (i <= rl)
+
+	for (; *n2; n2--;  r_index--)
 	{
-		tmp[i] = r[rl - i];
-		tmpl++;
-		i++;
+		num = (*n2 - '0') + tens; 
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10; 
 	}
-	i = 0;
-	while (i < tmpl)
-	{
-		if (r[i] == '\0')
-		{
-			break;
-		}
-		r[i] = tmp[i];
-		i++;
-	}
-	return (r);
+	
 }
