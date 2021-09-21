@@ -1,43 +1,84 @@
-#include "main.h"
+#include <stdlib.h>
 
 /**
- * strtow - splits a string into words
- * @str: string of words to be split
- * Return: double pointer to strings
+ * strtow - char
+ * @str: pointer to string params
+ * Return: char
  */
+
 char **strtow(char *str)
 {
-	char **ptr;
-	int i, k, len, start, end, j = 0;
-	int words =  countWords(str);
+	int i = 0, j = 0, k = 0;
+	int len = 0, count = 0;
+	char **f, *col;
 
-	if (!str || !countWords(str))
-		return (NULL);
-	ptr = malloc(sizeof(char *) * (words + 1));
-	if (!ptr)
-		return (NULL);
-	for (i = 0; i < words; i++)
+	if (!str || !*str)
 	{
-		start = startIndex(str, j);
-		end = endIndex(str, start);
-		len = end - start;
-		ptr[i] = malloc(sizeof(char) * (len + 1));
-		if (!ptr[i])
+		return (NULL);
+	}
+
+	while (*(str + i))
+	{
+		if (*(str + i) != ' ')
 		{
-			i -= 1;
-			while (i >= 0)
+			if (*(str + i + 1) == ' ' || *(str + i + 1) == 0)
 			{
-				free(ptr[i]);
-					i--;
+				count += 1;
 			}
-			free(ptr);
+		}
+		i++;
+	}
+
+	if (count == 0)
+	{
+		return (NULL);
+	}
+	count += 1;
+	f = malloc(sizeof(char *) * count);
+
+	if (!f)
+	{
+		return (NULL);
+	}
+	i = 0;
+
+	while (*str)
+	{
+		while (*str == ' ' && *str)
+		{
+			str++;
+		}
+		len = 0;
+
+		while (*(str + len) != ' ' && *(str + len))
+		{
+			len += 1;
+		}
+		len += 1;
+		col = malloc(sizeof(char) * len);
+
+		if (!col)
+		{
+			for (k = j - 1; k >= 0; k--)
+			{
+				free(f[k]);
+			}
+			free(f);
 			return (NULL);
 		}
-		for (k = 0; k < len; k++)
-			ptr[i][k] = str[start++];
-		ptr[i][k++] = '\0';
-		j = end + 1;
+
+		for (k = 0; k < (len - 1);  k++)
+		{
+			*(col + k) = *(str++);
+		}
+		*(col + k) = '\0';
+		*(f + j) = col;
+
+		if (j < (count - 1))
+		{
+			j++;
+		}
 	}
-	ptr[i] = NULL;
-	return (ptr);
-}
+	*(f + j) = NULL;
+	return (f);
+} /*yes*/
