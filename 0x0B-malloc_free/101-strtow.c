@@ -1,39 +1,43 @@
-#include "notrebloh.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "main.h"
+
 /**
- * *_realloc - reallocate memory size function
- * @ptr: pointer to address of old memory location
- * @old_size: unsigned int type of old memory size
- * @new_size: unsigned int type for new memory size
- * Return:  return pointer to array
+ * strtow - splits a string into words
+ * @str: string of words to be split
+ * Return: double pointer to strings
  */
-
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+char **strtow(char *str)
 {
-	char *s;
+	char **ptr;
+	int i, k, len, start, end, j = 0;
+	int words =  countWords(str);
 
-	if (new_size > old_size)
-	{
-		s = malloc(new_size);
-		free(ptr);
-		return (s);
-	}
-	if (new_size == old_size)
-	{
-		return (ptr);
-	}
-	if (ptr == NULL)
-	{
-		s = malloc(new_size);
-		free(ptr);
-		return (s);
-	}
-	if (new_size == 0 && ptr != NULL)
-	{
-		free(ptr);
+	if (!str || !countWords(str))
 		return (NULL);
+	ptr = malloc(sizeof(char *) * (words + 1));
+	if (!ptr)
+		return (NULL);
+	for (i = 0; i < words; i++)
+	{
+		start = startIndex(str, j);
+		end = endIndex(str, start);
+		len = end - start;
+		ptr[i] = malloc(sizeof(char) * (len + 1));
+		if (!ptr[i])
+		{
+			i -= 1;
+			while (i >= 0)
+			{
+				free(ptr[i]);
+					i--;
+			}
+			free(ptr);
+			return (NULL);
+		}
+		for (k = 0; k < len; k++)
+			ptr[i][k] = str[start++];
+		ptr[i][k++] = '\0';
+		j = end + 1;
 	}
+	ptr[i] = NULL;
 	return (ptr);
 }
